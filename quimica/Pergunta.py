@@ -217,9 +217,9 @@ class Pergunta:
 
             for i in range(0, len(listaElementosSelecionado)):
                 elemento = listaElementosSelecionado[i]
-                if elemento.nomeElemento == 'Carbono':
+                if elemento.nomeElemento == 'nitrogenio':
                     qtdnitrogenio = qtdnitrogenio + 1
-                if elemento.nomeElemento == 'Oxigênio':
+                if elemento.nomeElemento == 'hidrogenio':
                     qtdhidrogenio = qtdhidrogenio + 1
 
             if qtdnitrogenio == 1 and qtdhidrogenio == 3:
