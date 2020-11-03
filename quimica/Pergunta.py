@@ -52,7 +52,7 @@ class Pergunta:
 
     def acidoacetico(self):
         carbono = ElementoQuimico('Carbono ', 0, 'C')
-        hidrogenio = ElementoQuimico('Hidrogênio ', 6, 'H')
+        hidrogenio = ElementoQuimico('Hidrogênio ', 0, 'H')
         oxigenio = ElementoQuimico('Oxigênio ', 6, 'O')
 
         self.id = 3
@@ -64,7 +64,7 @@ class Pergunta:
         self.listaElementos.append(oxigenio)
 
     def oxidodinitrogeno(self):
-        nitrogenio = ElementoQuimico('Nitrogenio ', 6, 'N')
+        nitrogenio = ElementoQuimico('Nitrogênio ', 5, 'N')
         oxigenio = ElementoQuimico('Oxigênio ', 6, 'O')
 
         self.id = 4
@@ -75,7 +75,7 @@ class Pergunta:
         self.listaElementos.append(oxigenio)
 
     def agua(self):
-        hidrogenio = ElementoQuimico('Hidrogênio ', 6, 'H')
+        hidrogenio = ElementoQuimico('Hidrogênio ', 0, 'H')
         oxigenio = ElementoQuimico('Oxigênio ', 6, 'O')
 
         self.id = 5
@@ -97,8 +97,8 @@ class Pergunta:
         self.listaElementos.append(oxigenio)
 
     def amonia(self):
-        nitrogenio = ElementoQuimico('Nitrogenio ', 0, 'N')
-        hidrogenio = ElementoQuimico('Hidrogenio ', 6, 'H')
+        nitrogenio = ElementoQuimico('Nitrogênio ', 5, 'N')
+        hidrogenio = ElementoQuimico('Hidrogênio ', 0, 'H')
 
         self.id = 7
         self.nomeCompostoQuimico = 'Amônia'
@@ -169,7 +169,7 @@ class Pergunta:
 
             for i in range(0, len(listaElementosSelecionado)):
                 elemento = listaElementosSelecionado[i]
-                if elemento.nomeElemento == 'Nitrogenio':
+                if elemento.nomeElemento == 'Nitrogênio':
                     qtdNitrogenio = qtdNitrogenio + 1
                 if elemento.nomeElemento == 'Oxigênio':
                     qtdOxigenio = qtdOxigenio + 1
@@ -217,9 +217,9 @@ class Pergunta:
 
             for i in range(0, len(listaElementosSelecionado)):
                 elemento = listaElementosSelecionado[i]
-                if elemento.nomeElemento == 'nitrogenio':
+                if elemento.nomeElemento == 'Nitrogênio':
                     qtdnitrogenio = qtdnitrogenio + 1
-                if elemento.nomeElemento == 'hidrogenio':
+                if elemento.nomeElemento == 'Hidrogênio':
                     qtdhidrogenio = qtdhidrogenio + 1
 
             if qtdnitrogenio == 1 and qtdhidrogenio == 3:
@@ -228,5 +228,5 @@ class Pergunta:
                 return False
 
     def novaPergunta(self):
-        self.id = randint(1, 7)
+        self.id = randint(7, 7)
         self.defineElemento()

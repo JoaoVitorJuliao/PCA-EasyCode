@@ -59,7 +59,7 @@ while not gameExit:
                     mostraMensagem = True
                     mensagem = 'Parabéns! Você Acertou!'
 
-                    pontuacao = pontuacao + (1.3 * 1234)
+                    pontuacao = pontuacao + 1
 
                     pergunta.novaPergunta()
 
