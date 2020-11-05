@@ -1,6 +1,9 @@
 import pygame
 import Mensagem
 import os, sys
+from tkinter import *
+from tkinter.ttk import *
+import time
 
 from TabelaPeriodica import TabelaPeriodica
 from Pergunta import Pergunta
@@ -25,6 +28,18 @@ posicaoTuboEnsaio = (500, 600)
 # PONTUACAO
 pontuacao = 0
 
+vidas = 3
+
+
+def mostrarvidas():
+    fonte = pygame.font.SysFont('comicsansms', 20)
+    corrente = "Vidas: " + str(vidas).zfill(2)
+    texto = fonte.render(corrente, True, black)
+    texto_rect = texto.get_rect()
+    texto_rect.topright = [100, 0]
+    gameDisplay.blit(texto, texto_rect)
+
+
 pygame.font.init()
 
 # FONTES PARA ESCRITA NA TELA
@@ -42,6 +57,7 @@ gameExit = False
 firstInit = True
 listaElementosSelecionados = []
 mostraMensagemTempo = 0
+
 
 while not gameExit:
 
@@ -71,6 +87,11 @@ while not gameExit:
 
                     del listaElementosSelecionados[:]
                     del ultimoElementoInserido
+
+                    vidas -= 1
+
+                if vidas <= 0:
+                    exit()
             else:
                 elementoSelecionado = tabela.elementoClick(posicaoMouse[0], posicaoMouse[1])
 
@@ -95,6 +116,9 @@ while not gameExit:
     else:
         # TITULO DO JOGO
         gameDisplay.blit(fonteTituloJogo.render("Periodic.Py", 1, black), (440, 20))
+
+        # # mostrar vidas
+        mostrarvidas()
 
         # SAUDAÇÃO
         gameDisplay.blit(fonteNomeDoJogador.render('Jogador: ' + nome, 1, black), (460, 150))
@@ -145,6 +169,7 @@ while not gameExit:
         except:
             print('Mensagem nao definida')
 
+        # FimDoJogo()
         # REFRESH NA TELA
         pygame.time.wait(40)
         pygame.display.update()
