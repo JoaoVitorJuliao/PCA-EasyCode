@@ -49,4 +49,5 @@ def main():
   screen = pygame.display.set_mode((1140, 720))
   return ask(screen, "Nome")
 
+
 if __name__ == '__main__': main()

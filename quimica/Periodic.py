@@ -1,16 +1,15 @@
 import pygame
 import Mensagem
 import os, sys
-from tkinter import *
-from tkinter.ttk import *
-import time
 
 from TabelaPeriodica import TabelaPeriodica
 from Pergunta import Pergunta
+from ranking import *
 
 pygame.init()
-
-gameDisplay = pygame.display.set_mode((1140, 700))
+windowWidth = 1140
+windowHeight = 700
+gameDisplay = pygame.display.set_mode((windowWidth, windowHeight))
 pygame.display.set_caption('Periodic.Py')
 
 tabela = TabelaPeriodica()
@@ -28,17 +27,8 @@ posicaoTuboEnsaio = (500, 600)
 # PONTUACAO
 pontuacao = 0
 
-vidas = 3
-
-
-def mostrarvidas():
-    fonte = pygame.font.SysFont('comicsansms', 20)
-    corrente = "Vidas: " + str(vidas).zfill(2)
-    texto = fonte.render(corrente, True, black)
-    texto_rect = texto.get_rect()
-    texto_rect.topright = [100, 0]
-    gameDisplay.blit(texto, texto_rect)
-
+vidas = 1
+botao_jogarNovamente = Botao(cor=green, posx=310, posy=360, largura=180, altura=40, texto="Jogar Novamente")
 
 pygame.font.init()
 
@@ -57,6 +47,62 @@ gameExit = False
 firstInit = True
 listaElementosSelecionados = []
 mostraMensagemTempo = 0
+fimdejogo = False
+
+
+def mostrarvidas():
+    fonte = pygame.font.SysFont('comicsansms', 20)
+    corrente = "Vidas: " + str(vidas).zfill(2)
+    texto = fonte.render(corrente, True, black)
+    texto_rect = texto.get_rect()
+    texto_rect.topright = [100, 0]
+    gameDisplay.blit(texto, texto_rect)
+
+
+def verificaPontuacao(nome_jogador, pontuacao):
+    atual = pontuacao
+    nome = nome_jogador
+    arq = open('HighScores.txt', 'r')
+    lista = []
+    lista2 = []
+    for l in arq:
+        lista = l.split(';')
+    trocou = 0
+    i = 0
+    for pos in lista:
+        i += 1
+        quebra = pos.split(':')
+        if trocou == 0 and int(quebra[1]) < atual:
+            quebra[0] = nome
+            quebra[1] = atual
+            lista2.append(quebra[0]+":"+str(quebra[1]))
+            trocou += 1
+        else:
+            lista2.append(quebra[0]+":"+str(quebra[1]))
+    arq.close()
+    i = 0
+    arq = open('HighScores.txt', 'w')
+    for pos in lista2:
+        if i == 2:
+            arq.write(pos)
+        else:
+            arq.write(pos+';')
+        i += 1
+    arq.close()
+
+
+def mostraPontuacao():
+    arq = open('HighScores.txt', 'r')
+    for l in arq:
+        lista = l.split(';')
+        exibe_rk = fonteMensagem.render("RANKING", True, (25, 25, 112))
+        exibe_p1 = fonteMensagem.render((f"1º lugar----> "+lista[0]), True, (25, 25, 112))
+    # exibe_p2 = fonteMensagem.render(("2º lugar----> "+lista[1]), True, (25, 25, 112))
+    # exibe_p3 = fonteMensagem.render(("3º lugar----> "+lista[2]), True, (25, 25, 112))
+        gameDisplay.blit(exibe_rk, (352.5, 190))
+        gameDisplay.blit(exibe_p1, (288, 230))
+    # gameDisplay.blit(exibe_p2, (288, 260))
+    # gameDisplay.blit(exibe_p3, (288, 290))
 
 
 while not gameExit:
@@ -91,7 +137,37 @@ while not gameExit:
                     vidas -= 1
 
                 if vidas <= 0:
-                    exit()
+                    verificaPontuacao(nome, int(pontuacao))
+                    fimdejogo = True
+                    while fimdejogo:
+                        gameDisplay.fill(white)
+                        for event in pygame.event.get():
+                            pos_mouse = pygame.mouse.get_pos()
+                            if event.type == pygame.QUIT:
+                                gameExit = True
+                                partida = False
+                                menu = False
+                                loop_jogo = False
+
+                            if event.type == pygame.MOUSEBUTTONDOWN:
+                                if botao_jogarNovamente.mouseSobre(pos_mouse):
+                                    menu = True
+                                    vidas = 3
+                                    pontos = 0
+                        exibe_fim3 = fonteMensagem.render(nome, True, (green))
+                        exibe_fim1 = fonteTituloJogo.render("Fim de Jogo!", True, (233, 233, 233))
+                        exibe_fim2 = fonteMensagem.render(
+                            ("Jogador: " + nome + "          Pontos obtidos:" + str(pontuacao)), True,
+                            (233, 233, 233))
+                        gameDisplay.blit(exibe_fim1, (280, 30))
+                        gameDisplay.blit(exibe_fim2, (196, 120))
+                        mostraPontuacao()
+                        botao_jogarNovamente.desenhaBotao(gameDisplay, white)
+
+                        pygame.display.flip()
+                        # pygame.time.wait(10000)
+                        # sys.exit()
+
             else:
                 elementoSelecionado = tabela.elementoClick(posicaoMouse[0], posicaoMouse[1])
 
@@ -103,7 +179,8 @@ while not gameExit:
                         listaElementosSelecionados.append(elementoSelecionado)
                         ultimoElementoInserido = elementoSelecionado
                 except:
-                    print('Elemento não definido')
+                    pass
+                    # print('Elemento não definido')
 
     if firstInit == True:
         # TITULO DO JOGO
@@ -117,7 +194,7 @@ while not gameExit:
         # TITULO DO JOGO
         gameDisplay.blit(fonteTituloJogo.render("Periodic.Py", 1, black), (440, 20))
 
-        # # mostrar vidas
+        # mostrar vidas
         mostrarvidas()
 
         # SAUDAÇÃO
@@ -148,14 +225,16 @@ while not gameExit:
                 posicaoMouseDrag = pygame.mouse.get_pos()
                 elementoSelecionado.desenhaElemento(gameDisplay, posicaoMouseDrag[0] - (elementoSelecionado.base / 2), posicaoMouseDrag[1] - (elementoSelecionado.altura / 2))
         except:
-            print('Elemento nao definido')
+            pass
+            # print('Elemento nao definido')
 
         # DESENHA ULTIMO ELEMENTO INSERIDO
         try:
             ultimoElementoInserido.desenhaElemento(gameDisplay, 400, 610)
             gameDisplay.blit(fonteElemento.render('Último Inserido', 1, black), (360, 570))
         except:
-            print('Nao existe ultimo elemento')
+            pass
+            # print('Nao existe ultimo elemento')
 
         # MOSTRA MENSAGEM
         try:
@@ -167,12 +246,13 @@ while not gameExit:
                     mostraMensagemTempo = 0
 
         except:
-            print('Mensagem nao definida')
+            pass
+            # print('Mensagem nao definida')
 
-        # FimDoJogo()
         # REFRESH NA TELA
         pygame.time.wait(40)
         pygame.display.update()
+
 
 pygame.display.update()
 pygame.quit()

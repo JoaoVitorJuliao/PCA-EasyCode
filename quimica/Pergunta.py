@@ -228,5 +228,5 @@ class Pergunta:
                 return False
 
     def novaPergunta(self):
-        self.id = randint(7, 7)
+        self.id = randint(1, 7)
         self.defineElemento()
