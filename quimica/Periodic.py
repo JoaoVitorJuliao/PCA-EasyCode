@@ -5,7 +5,7 @@ import os, sys
 from pygame.locals import *
 from TabelaPeriodica import TabelaPeriodica
 from Pergunta import Pergunta
-from ranking import *
+from botao import Botao
 mainClock = pygame.time.Clock()
 
 pygame.init()
@@ -30,9 +30,10 @@ posicaoTuboEnsaio = (500, 600)
 pontuacao = 0
 
 vidas = 1
-botao_jogarNovamente = Botao(cor=green, posx=310, posy=360, largura=180, altura=40, texto="Jogar Novamente")
+botao_jogarNovamente = Botao(cor=black, posx=310, posy=360, largura=180, altura=40, texto="Jogar Novamente")
 botao_start = Botao(cor=black, posx=479, posy=250, largura=200, altura=40, texto='Iniciar Jogo')
 botao_options = Botao(cor=black, posx=478, posy=300, largura=200, altura=40, texto='Opções do jogo')
+botao_sair = Botao(cor=black, posx=480, posy=350, largura=200, altura=40, texto='Sair')
 
 # BOTAO NA JANELA DE OPÇOES
 botao_voltar = Botao(cor=black, posx=0, posy=0, largura=100, altura=40, texto='Voltar')
@@ -49,6 +50,9 @@ fonteBotaoConfirmar = pygame.font.SysFont('comicsansms', 24)
 fonteMensagem = pygame.font.SysFont('comicsansms', 36)
 
 tubo = pygame.image.load(os.path.join('resources', 'tubo1.png'))
+menu_simbolo1 = pygame.image.load(os.path.join('resources', 'menu_simbolo1.svg'))
+menu_simbolo2 = pygame.image.load(os.path.join('resources', 'menu_simbolo2.svg'))
+menu_simbolo3 = pygame.image.load(os.path.join('resources', 'menu_simbolo3.svg'))
 
 gameExit = False
 firstInit = True
@@ -70,22 +74,21 @@ def verificaPontuacao(nome_jogador, pontuacao):
     atual = pontuacao
     nome = nome_jogador
     arq = open('HighScores.txt', 'r')
-    lista = []
     lista2 = []
     for l in arq:
         lista = l.split(';')
-    trocou = 0
-    i = 0
-    for pos in lista:
-        i += 1
-        quebra = pos.split(':')
-        if trocou == 0 and int(quebra[1]) < atual:
-            quebra[0] = nome
-            quebra[1] = atual
-            lista2.append(quebra[0]+":"+str(quebra[1]))
-            trocou += 1
-        else:
-            lista2.append(quebra[0]+":"+str(quebra[1]))
+        trocou = 0
+        i = 0
+        for pos in lista:
+            i += 1
+            quebra = pos.split(':')
+            if trocou == 0 and int(quebra[1]) < atual:
+                quebra[0] = nome
+                quebra[1] = atual
+                lista2.append(quebra[0]+":"+str(quebra[1]))
+                trocou += 1
+            else:
+                lista2.append(quebra[0]+":"+str(quebra[1]))
     arq.close()
     i = 0
     arq = open('HighScores.txt', 'w')
@@ -103,22 +106,28 @@ def mostraPontuacao():
     for l in arq:
         lista = l.split(';')
         exibe_rk = fonteMensagem.render("RANKING", True, (25, 25, 112))
-        exibe_p1 = fonteMensagem.render((f"1º lugar----> "+lista[0]), True, (25, 25, 112))
-    # exibe_p2 = fonteMensagem.render(("2º lugar----> "+lista[1]), True, (25, 25, 112))
-    # exibe_p3 = fonteMensagem.render(("3º lugar----> "+lista[2]), True, (25, 25, 112))
+        exibe_p1 = fonteMensagem.render(("1º lugar----> "+lista[0]), True, (25, 25, 112))
+        exibe_p2 = fonteMensagem.render(("2º lugar----> "+lista[1]), True, (25, 25, 112))
+        exibe_p3 = fonteMensagem.render(("3º lugar----> "+lista[2]), True, (25, 25, 112))
         gameDisplay.blit(exibe_rk, (352.5, 190))
         gameDisplay.blit(exibe_p1, (288, 230))
-    # gameDisplay.blit(exibe_p2, (288, 260))
-    # gameDisplay.blit(exibe_p3, (288, 290))
+        gameDisplay.blit(exibe_p2, (288, 260))
+        gameDisplay.blit(exibe_p3, (288, 290))
 
 
 def main_menu():
     while True:
-
         gameDisplay.fill(white)
 
+        gameDisplay.blit(fonteTituloJogo.render("Periodic.Py", 1, black), (440, 20))
+
+        gameDisplay.blit(menu_simbolo1, (200, 200))
+        gameDisplay.blit(menu_simbolo2, (800, 350))
+        gameDisplay.blit(menu_simbolo3, (100, 450))
+
         botao_start.desenhaBotao(gameDisplay, white)
-        botao_options.desenhaBotao(gameDisplay, green)
+        botao_options.desenhaBotao(gameDisplay, white)
+        botao_sair.desenhaBotao(gameDisplay, white)
 
         for event in pygame.event.get():
             pos_mouse = pygame.mouse.get_pos()
@@ -127,9 +136,10 @@ def main_menu():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if botao_start.mouseSobre(pos_mouse):
                     game()
-            if event.type == pygame.MOUSEBUTTONDOWN:
                 if botao_options.mouseSobre(pos_mouse):
                     options()
+                if botao_sair.mouseSobre(pos_mouse):
+                    sys.exit()
 
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -139,9 +149,6 @@ def main_menu():
                 if event.key == K_ESCAPE:
                     pygame.quit()
                     sys.exit()
-            # if event.type == MOUSEBUTTONDOWN:
-            #     if event.button == 1:
-            #         click = True
 
         pygame.display.update()
         mainClock.tick(60)
@@ -151,6 +158,7 @@ def options():
     running = True
     while running:
         gameDisplay.fill(white)
+        gameDisplay.blit(fonteTituloJogo.render("Periodic.Py", 1, black), (440, 20))
         botao_voltar.desenhaBotao(gameDisplay, white)
         for event in pygame.event.get():
             pos_mouse = pygame.mouse.get_pos()
@@ -218,7 +226,6 @@ def game():
                                         main_menu()
                                         vidas = 3
                                         pontuacao = 0
-                            # exibe_fim3 = fonteMensagem.render(nome, True, (green))
                             exibe_fim1 = fonteTituloJogo.render("Fim de Jogo!", True, (233, 233, 233))
                             exibe_fim2 = fonteMensagem.render(
                                 ("Jogador: " + nome + "          Pontos obtidos:" + str(pontuacao)), True,
