@@ -26,18 +26,19 @@ green = (75, 181, 67)
 # POSICAO IMAGEM
 posicaoTuboEnsaio = (500, 600)
 
-# PONTUACAO
-pontuacao = 0
-
-vidas = 1
+# BOTAO JANELA MOSTRAR RESULTADO
 botao_jogarNovamente = Botao(cor=black, posx=310, posy=360, largura=180, altura=40, texto="Jogar Novamente")
+botao_voltar_menu = Botao(cor=black, posx=500, posy=360, largura=180, altura=40, texto="Voltar Menu")
+
+# BOTOES DA JANELA MENU
 botao_start = Botao(cor=black, posx=479, posy=250, largura=200, altura=40, texto='Iniciar Jogo')
 botao_options = Botao(cor=black, posx=478, posy=300, largura=200, altura=40, texto='Opções do jogo')
 botao_sair = Botao(cor=black, posx=480, posy=350, largura=200, altura=40, texto='Sair')
 
-# BOTAO NA JANELA DE OPÇOES
-botao_voltar = Botao(cor=black, posx=0, posy=0, largura=100, altura=40, texto='Voltar')
-
+# BOTOES DA JANELA DE OPÇOES
+botao_voltar = Botao(cor=black, posx=480, posy=350, largura=200, altura=40, texto='Voltar')
+botao_som = Botao(cor=black, posx=478, posy=300, largura=200, altura=40, texto='Musica Ligada')
+# INICIA MODULOS DO PYGAME
 pygame.font.init()
 
 # FONTES PARA ESCRITA NA TELA
@@ -49,25 +50,17 @@ fonteElemento = pygame.font.SysFont('comicsansms', 20)
 fonteBotaoConfirmar = pygame.font.SysFont('comicsansms', 24)
 fonteMensagem = pygame.font.SysFont('comicsansms', 36)
 
-tubo = pygame.image.load(os.path.join('resources', 'tubo1.png'))
+# PASSANDO IMAGENS PARA O GAME
+tubo = pygame.image.load(os.path.join('resources', 'tubo.png'))
 menu_simbolo1 = pygame.image.load(os.path.join('resources', 'menu_simbolo1.svg'))
 menu_simbolo2 = pygame.image.load(os.path.join('resources', 'menu_simbolo2.svg'))
 menu_simbolo3 = pygame.image.load(os.path.join('resources', 'menu_simbolo3.svg'))
 
-gameExit = False
-firstInit = True
-listaElementosSelecionados = []
-mostraMensagemTempo = 0
-fimdejogo = False
-
-
-def mostrarvidas():
-    fonte = pygame.font.SysFont('comicsansms', 20)
-    corrente = "Vidas: " + str(vidas).zfill(2)
-    texto = fonte.render(corrente, True, black)
-    texto_rect = texto.get_rect()
-    texto_rect.topright = [100, 0]
-    gameDisplay.blit(texto, texto_rect)
+# CONFIGURAÇÕES DE SOM
+# somComer = pygame.mixer.Sound('comer.wav')
+# pygame.mixer.music.load('musica.mid')
+# pygame.mixer.music.play(-1, 0.0)
+# somAtivado = True
 
 
 def verificaPontuacao(nome_jogador, pontuacao):
@@ -108,11 +101,11 @@ def mostraPontuacao():
         exibe_rk = fonteMensagem.render("RANKING", True, (25, 25, 112))
         exibe_p1 = fonteMensagem.render(("1º lugar----> "+lista[0]), True, (25, 25, 112))
         exibe_p2 = fonteMensagem.render(("2º lugar----> "+lista[1]), True, (25, 25, 112))
-        exibe_p3 = fonteMensagem.render(("3º lugar----> "+lista[2]), True, (25, 25, 112))
+        # exibe_p3 = fonteMensagem.render(("3º lugar----> "+lista[2]), True, (25, 25, 112))
         gameDisplay.blit(exibe_rk, (352.5, 190))
         gameDisplay.blit(exibe_p1, (288, 230))
         gameDisplay.blit(exibe_p2, (288, 260))
-        gameDisplay.blit(exibe_p3, (288, 290))
+        # gameDisplay.blit(exibe_p3, (288, 290))
 
 
 def main_menu():
@@ -137,7 +130,7 @@ def main_menu():
                 if botao_start.mouseSobre(pos_mouse):
                     game()
                 if botao_options.mouseSobre(pos_mouse):
-                    options()
+                    opcoes()
                 if botao_sair.mouseSobre(pos_mouse):
                     sys.exit()
 
@@ -154,12 +147,9 @@ def main_menu():
         mainClock.tick(60)
 
 
-def options():
+def opcoes():
     running = True
     while running:
-        gameDisplay.fill(white)
-        gameDisplay.blit(fonteTituloJogo.render("Periodic.Py", 1, black), (440, 20))
-        botao_voltar.desenhaBotao(gameDisplay, white)
         for event in pygame.event.get():
             pos_mouse = pygame.mouse.get_pos()
             if event.type == QUIT:
@@ -168,7 +158,15 @@ def options():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if botao_voltar.mouseSobre(pos_mouse):
                     main_menu()
-
+                if botao_som.mouseSobre(pos_mouse):
+                    som = True
+        gameDisplay.fill(white)
+        gameDisplay.blit(menu_simbolo1, (200, 200))
+        gameDisplay.blit(menu_simbolo2, (800, 350))
+        gameDisplay.blit(menu_simbolo3, (100, 450))
+        gameDisplay.blit(fonteTituloJogo.render("Periodic.Py", 1, black), (440, 20))
+        botao_som.desenhaBotao(gameDisplay, white)
+        botao_voltar.desenhaBotao(gameDisplay, white)
         pygame.display.update()
         mainClock.tick(60)
 
@@ -178,14 +176,23 @@ def game():
     listaElementosSelecionados = []
     mostraMensagemTempo = 0
     pontuacao = 0
-    vidas = 1
+    vidas = 3
     gameExit = False
+
+    def mostrarvidas():
+        fonte = pygame.font.SysFont('comicsansms', 20)
+        corrente = "Vidas: " + str(vidas).zfill(2)
+        texto = fonte.render(corrente, True, black)
+        texto_rect = texto.get_rect()
+        texto_rect.topright = [100, 0]
+        gameDisplay.blit(texto, texto_rect)
+
     while not gameExit:
         gameDisplay.fill(gray)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                gameExit = True
+                sys.exit()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 posicaoMouse = pygame.mouse.get_pos()
@@ -222,10 +229,12 @@ def game():
 
                                 if event.type == pygame.MOUSEBUTTONDOWN:
                                     if botao_jogarNovamente.mouseSobre(pos_mouse):
+                                        gameExit = False
                                         fimdejogo = False
-                                        main_menu()
                                         vidas = 3
                                         pontuacao = 0
+                                    if botao_voltar_menu.mouseSobre(pos_mouse):
+                                        main_menu()
                             exibe_fim1 = fonteTituloJogo.render("Fim de Jogo!", True, (233, 233, 233))
                             exibe_fim2 = fonteMensagem.render(
                                 ("Jogador: " + nome + "          Pontos obtidos:" + str(pontuacao)), True,
@@ -234,6 +243,7 @@ def game():
                             gameDisplay.blit(exibe_fim2, (196, 120))
                             mostraPontuacao()
                             botao_jogarNovamente.desenhaBotao(gameDisplay, white)
+                            botao_voltar_menu.desenhaBotao(gameDisplay, white)
 
                             pygame.display.flip()
 
