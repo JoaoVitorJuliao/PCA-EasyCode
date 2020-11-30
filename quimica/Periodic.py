@@ -32,12 +32,15 @@ botao_voltar_menu = Botao(cor=black, posx=500, posy=360, largura=180, altura=40,
 
 # BOTOES DA JANELA MENU
 botao_start = Botao(cor=black, posx=479, posy=250, largura=200, altura=40, texto='Iniciar Jogo')
-botao_options = Botao(cor=black, posx=478, posy=300, largura=200, altura=40, texto='Opções do jogo')
-botao_sair = Botao(cor=black, posx=480, posy=350, largura=200, altura=40, texto='Sair')
+botao_elementos = Botao(cor=black, posx=479, posy=300, largura=200, altura=40, texto='Sobre o jogo')
+botao_options = Botao(cor=black, posx=479, posy=350, largura=200, altura=40, texto='Opções do jogo')
+botao_sair = Botao(cor=black, posx=479, posy=400, largura=200, altura=40, texto='Sair')
 
 # BOTOES DA JANELA DE OPÇOES
 botao_voltar = Botao(cor=black, posx=480, posy=350, largura=200, altura=40, texto='Voltar')
 botao_som = Botao(cor=black, posx=478, posy=300, largura=200, altura=40, texto='Musica Ligada')
+# BOTAO RESPOSTA
+botao_voltar_resposta = Botao(cor=black, posx=5, posy=5, largura=200, altura=40, texto='Voltar')
 # INICIA MODULOS DO PYGAME
 pygame.font.init()
 
@@ -57,10 +60,6 @@ menu_simbolo2 = pygame.image.load(os.path.join('resources', 'menu_simbolo2.svg')
 menu_simbolo3 = pygame.image.load(os.path.join('resources', 'menu_simbolo3.svg'))
 
 # CONFIGURAÇÕES DE SOM
-# somComer = pygame.mixer.Sound('comer.wav')
-# pygame.mixer.music.load('musica.mid')
-# pygame.mixer.music.play(-1, 0.0)
-# somAtivado = True
 
 
 def verificaPontuacao(nome_jogador, pontuacao):
@@ -101,11 +100,9 @@ def mostraPontuacao():
         exibe_rk = fonteMensagem.render("RANKING", True, (25, 25, 112))
         exibe_p1 = fonteMensagem.render(("1º lugar----> "+lista[0]), True, (25, 25, 112))
         exibe_p2 = fonteMensagem.render(("2º lugar----> "+lista[1]), True, (25, 25, 112))
-        # exibe_p3 = fonteMensagem.render(("3º lugar----> "+lista[2]), True, (25, 25, 112))
         gameDisplay.blit(exibe_rk, (352.5, 190))
         gameDisplay.blit(exibe_p1, (288, 230))
         gameDisplay.blit(exibe_p2, (288, 260))
-        # gameDisplay.blit(exibe_p3, (288, 290))
 
 
 def main_menu():
@@ -121,6 +118,7 @@ def main_menu():
         botao_start.desenhaBotao(gameDisplay, white)
         botao_options.desenhaBotao(gameDisplay, white)
         botao_sair.desenhaBotao(gameDisplay, white)
+        botao_elementos.desenhaBotao(gameDisplay, white)
 
         for event in pygame.event.get():
             pos_mouse = pygame.mouse.get_pos()
@@ -133,6 +131,8 @@ def main_menu():
                     opcoes()
                 if botao_sair.mouseSobre(pos_mouse):
                     sys.exit()
+                if botao_elementos.mouseSobre(pos_mouse):
+                    respostas()
 
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -167,6 +167,38 @@ def opcoes():
         gameDisplay.blit(fonteTituloJogo.render("Periodic.Py", 1, black), (440, 20))
         botao_som.desenhaBotao(gameDisplay, white)
         botao_voltar.desenhaBotao(gameDisplay, white)
+        pygame.display.update()
+        mainClock.tick(60)
+
+
+def respostas():
+    resposta = True
+    while resposta:
+        for event in pygame.event.get():
+            pos_mouse = pygame.mouse.get_pos()
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if botao_voltar_resposta.mouseSobre(pos_mouse):
+                    main_menu()
+        gameDisplay.fill(white)
+        gameDisplay.blit(menu_simbolo1, (200, 200))
+        gameDisplay.blit(menu_simbolo2, (800, 350))
+        gameDisplay.blit(menu_simbolo3, (100, 450))
+        gameDisplay.blit(fonteTituloJogo.render("Periodic.Py", 1, black), (440, 20))
+        gameDisplay.blit(fonteSugestao.render("Forma de jogar:", 1, black), (440, 150))
+        gameDisplay.blit(fonteSugestao.render("Clique e segure o elemento e arraste", 1, black), (400, 200))
+        gameDisplay.blit(fonteSugestao.render("até o Erlenmeyer e solte-o.", 1, black), (400, 230))
+        gameDisplay.blit(fonteSugestao.render("Formulas utilizadas:", 1, black), (440, 270))
+        gameDisplay.blit(fonteSugestao.render("Ácido acético = H2-O-C", 1, black), (440, 300))
+        gameDisplay.blit(fonteSugestao.render("Cloreto de sódio = Na-Cl", 1, black), (440, 330))
+        gameDisplay.blit(fonteSugestao.render("Ácido sulfúrico = H2-O4-S", 1, black), (440, 360))
+        gameDisplay.blit(fonteSugestao.render("Óxido nitroso = NA2-O", 1, black), (440, 390))
+        gameDisplay.blit(fonteSugestao.render("Água = H2-O", 1, black), (440, 420))
+        gameDisplay.blit(fonteSugestao.render("Gás carbônico = C-O2", 1, black), (440, 450))
+        gameDisplay.blit(fonteSugestao.render("Amônia = N-H3", 1, black), (440, 480))
+        botao_voltar_resposta.desenhaBotao(gameDisplay, white)
         pygame.display.update()
         mainClock.tick(60)
 
@@ -235,10 +267,10 @@ def game():
                                         pontuacao = 0
                                     if botao_voltar_menu.mouseSobre(pos_mouse):
                                         main_menu()
-                            exibe_fim1 = fonteTituloJogo.render("Fim de Jogo!", True, (233, 233, 233))
+                            exibe_fim1 = fonteTituloJogo.render("Fim de Jogo!", True, black)
                             exibe_fim2 = fonteMensagem.render(
                                 ("Jogador: " + nome + "          Pontos obtidos:" + str(pontuacao)), True,
-                                (233, 233, 233))
+                                black)
                             gameDisplay.blit(exibe_fim1, (280, 30))
                             gameDisplay.blit(exibe_fim2, (196, 120))
                             mostraPontuacao()
@@ -273,7 +305,7 @@ def game():
             # TITULO DO JOGO
             gameDisplay.blit(fonteTituloJogo.render("Periodic.Py", 1, black), (440, 20))
 
-            # mostrar vidas
+            # mostrar vida
             mostrarvidas()
 
             # SAUDAÇÃO
@@ -294,7 +326,7 @@ def game():
 
             # DESENHA BOTAO
             if len(listaElementosSelecionados) > 0:
-                pygame.draw.rect(gameDisplay, green, [950, 632, 150, 50])
+                pygame.draw.rect(gameDisplay, black, [950, 632, 150, 50])
                 gameDisplay.blit(fonteBotaoConfirmar.render('Confirmar', 1, white), (970, 638))
 
             # DRAG AND DROP
@@ -331,6 +363,8 @@ def game():
             # REFRESH NA TELA
             pygame.time.wait(40)
             pygame.display.update()
+
+
 main_menu()
 
 pygame.display.update()

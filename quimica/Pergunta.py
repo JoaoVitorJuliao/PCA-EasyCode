@@ -68,7 +68,7 @@ class Pergunta:
         oxigenio = ElementoQuimico('Oxigênio ', 6, 'O')
 
         self.id = 4
-        self.nomeCompostoQuimico = 'Óxido Dinitrogeno (Óxido Nitroso)'
+        self.nomeCompostoQuimico = 'Óxido Dinitrogeno'
         self.dica = 'Possui 2 nitrogenios'
 
         self.listaElementos.append(nitrogenio)

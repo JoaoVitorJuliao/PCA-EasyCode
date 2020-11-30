@@ -11,8 +11,8 @@ class Botao:
         self.texto = kargs.get('texto')
 
     def mouseSobre(self, pos):
-        if pos[0] > self.posx and pos[0] < self.posx + self.largura:
-            if pos[1] > self.posy and pos[1] < self.posy + self.altura:
+        if self.posx < pos[0] < self.posx + self.largura:
+            if self.posy < pos[1] < self.posy + self.altura:
                 return True
         return False
 
