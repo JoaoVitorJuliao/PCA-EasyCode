@@ -38,7 +38,7 @@ botao_sair = Botao(cor=black, posx=479, posy=400, largura=200, altura=40, texto=
 
 # BOTOES DA JANELA DE OPÇOES
 botao_voltar = Botao(cor=black, posx=480, posy=350, largura=200, altura=40, texto='Voltar')
-botao_som = Botao(cor=black, posx=478, posy=300, largura=200, altura=40, texto='Música Ligada')
+botao_som = Botao(cor=black, posx=478, posy=300, largura=200, altura=40, texto='Música: Ligada')
 # BOTAO RESPOSTA
 botao_voltar_resposta = Botao(cor=black, posx=5, posy=5, largura=200, altura=40, texto='Voltar')
 # INICIA MODULOS DO PYGAME
