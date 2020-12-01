@@ -33,7 +33,7 @@ botao_voltar_menu = Botao(cor=black, posx=500, posy=360, largura=180, altura=40,
 # BOTOES DA JANELA MENU
 botao_start = Botao(cor=black, posx=479, posy=250, largura=200, altura=40, texto='Iniciar')
 botao_elementos = Botao(cor=black, posx=479, posy=300, largura=200, altura=40, texto='Sobre')
-botao_options = Botao(cor=black, posx=479, posy=350, largura=200, altura=40, texto='Opções')
+botao_options = Botao(cor=black, posx=479, posy=350, largura=200, altura=40, texto='Configurações')
 botao_sair = Botao(cor=black, posx=479, posy=400, largura=200, altura=40, texto='Sair')
 
 # BOTOES DA JANELA DE OPÇOES
