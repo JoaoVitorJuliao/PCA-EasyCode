@@ -191,7 +191,7 @@ def respostas():
         gameDisplay.blit(fonteSugestao.render("Pressione o elemento, arraste", 1, black), (400, 200))
         gameDisplay.blit(fonteSugestao.render("até o frasco de Erlenmeyer e solte-o.", 1, black), (400, 230))
         gameDisplay.blit(fonteSugestao.render("Formulas utilizadas:", 1, black), (440, 270))
-        gameDisplay.blit(fonteSugestao.render("Ácido Acético = H2OC", 1, black), (440, 300))
+        gameDisplay.blit(fonteSugestao.render("Ácido Nítrico = HNO3", 1, black), (440, 300))
         gameDisplay.blit(fonteSugestao.render("Cloreto de Sódio = NaCl", 1, black), (440, 330))
         gameDisplay.blit(fonteSugestao.render("Ácido Sulfúrico = H2SO4", 1, black), (440, 360))
         gameDisplay.blit(fonteSugestao.render("Óxido Nitroso = N2O", 1, black), (440, 390))
@@ -269,7 +269,7 @@ def game():
                                         main_menu()
                             exibe_fim1 = fonteTituloJogo.render("Fim de Jogo!", True, black)
                             exibe_fim2 = fonteMensagem.render(
-                                ("Jogador: " + nome + "          Pontos obtidos:" + str(pontuacao)), True,
+                                ("Jogador: " + nome + "          Pontos Obtidos:" + str(pontuacao)), True,
                                 black)
                             gameDisplay.blit(exibe_fim1, (280, 30))
                             gameDisplay.blit(exibe_fim2, (196, 120))

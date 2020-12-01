@@ -16,7 +16,7 @@ class Pergunta:
         elif self.id == 2:
             self.cloretosodio()
         elif self.id == 3:
-            self.acidoacetico()
+            self.acidonitrico()
         elif self.id == 4:
             self.oxidonitroso()
         elif self.id == 5:
@@ -28,8 +28,8 @@ class Pergunta:
 
     def acidosulfurico(self):
         hidrogenio = ElementoQuimico('Hidrogênio', 0, 'H')
-        oxigenio = ElementoQuimico('Oxigênio', 6, 'O')
         enxofre = ElementoQuimico('Enxofre', 6, 'S')
+        oxigenio = ElementoQuimico('Oxigênio', 6, 'O')
 
         self.id = 1
         self.nomeCompostoQuimico = 'Ácido Sulfúrico'
@@ -50,17 +50,17 @@ class Pergunta:
         self.listaElementos.append(sodio)
         self.listaElementos.append(cloro)
 
-    def acidoacetico(self):
-        carbono = ElementoQuimico('Carbono ', 0, 'C')
+    def acidonitrico(self):
         hidrogenio = ElementoQuimico('Hidrogênio ', 0, 'H')
+        nitrogenio = ElementoQuimico('Nitrogênio ', 5, 'N')
         oxigenio = ElementoQuimico('Oxigênio ', 6, 'O')
 
         self.id = 3
-        self.nomeCompostoQuimico = 'Ácido Acético'
+        self.nomeCompostoQuimico = 'Ácido Nítrico'
         self.dica = 'Possui 2 Hidrogenios'
 
         self.listaElementos.append(hidrogenio)
-        self.listaElementos.append(carbono)
+        self.listaElementos.append(nitrogenio)
         self.listaElementos.append(oxigenio)
 
     def oxidonitroso(self):
@@ -111,17 +111,17 @@ class Pergunta:
 
         if self.id == 1:
             qtdHidrogenio = 0
-            qtdOxigenio = 0
             qtdEnxofre = 0
+            qtdOxigenio = 0
 
             for i in range(0, len(listaElementosSelecionado)):
                 elemento = listaElementosSelecionado[i]
                 if elemento.nomeElemento == 'Hidrogênio':
                     qtdHidrogenio = qtdHidrogenio + 1
-                if elemento.nomeElemento == 'Oxigênio':
-                    qtdOxigenio = qtdEnxofre + 1
                 if elemento.nomeElemento == 'Enxofre':
-                    qtdEnxofre = qtdOxigenio + 1
+                    qtdEnxofre = qtdEnxofre + 1
+                if elemento.nomeElemento == 'Oxigênio':
+                    qtdOxigenio = qtdOxigenio + 1
 
             if qtdHidrogenio == 2 and qtdEnxofre == 1 and qtdOxigenio == 4:
                 return True
@@ -146,19 +146,20 @@ class Pergunta:
 
         if self.id == 3:
             qtdHidrogenio = 0
+            qtdNitrogenio = 0
             qtdOxigenio = 0
-            qtdCarbono = 0
 
             for i in range(0, len(listaElementosSelecionado)):
                 elemento = listaElementosSelecionado[i]
                 if elemento.nomeElemento == 'Hidrogênio':
                     qtdHidrogenio = qtdHidrogenio + 1
+                if elemento.nomeElemento == 'Nitrogênio':
+                    qtdNitrogenio = qtdNitrogenio + 1
                 if elemento.nomeElemento == 'Oxigênio':
                     qtdOxigenio = qtdOxigenio + 1
-                if elemento.nomeElemento == 'Carbono':
-                    qtdCarbono = qtdCarbono + 1
 
-            if qtdHidrogenio == 2 and qtdOxigenio == 1 and qtdCarbono == 1:
+
+            if qtdHidrogenio == 1 and qtdNitrogenio == 1 and qtdOxigenio == 3:
                 return True
             else:
                 return False
