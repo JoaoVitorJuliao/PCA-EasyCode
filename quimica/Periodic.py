@@ -33,8 +33,8 @@ botao_voltar_menu = Botao(cor=black, posx=500, posy=360, largura=180, altura=40,
 # BOTOES DA JANELA MENU
 botao_start = Botao(cor=black, posx=479, posy=250, largura=200, altura=40, texto='Iniciar')
 botao_elementos = Botao(cor=black, posx=479, posy=300, largura=200, altura=40, texto='Sobre')
-botao_options = Botao(cor=black, posx=479, posy=350, largura=200, altura=40, texto='Configurações')
-botao_sair = Botao(cor=black, posx=479, posy=400, largura=200, altura=40, texto='Sair')
+botao_sair = Botao(cor=black, posx=479, posy=350, largura=200, altura=40, texto='Sair')
+# botao_options = Botao(cor=black, posx=479, posy=400, largura=200, altura=40, texto='Configurações')
 
 # BOTOES DA JANELA DE OPÇOES
 botao_voltar = Botao(cor=black, posx=480, posy=350, largura=200, altura=40, texto='Voltar')
@@ -116,7 +116,7 @@ def main_menu():
         gameDisplay.blit(menu_simbolo3, (100, 450))
 
         botao_start.desenhaBotao(gameDisplay, white)
-        botao_options.desenhaBotao(gameDisplay, white)
+        # botao_options.desenhaBotao(gameDisplay, white)
         botao_sair.desenhaBotao(gameDisplay, white)
         botao_elementos.desenhaBotao(gameDisplay, white)
 
@@ -127,8 +127,8 @@ def main_menu():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if botao_start.mouseSobre(pos_mouse):
                     game()
-                if botao_options.mouseSobre(pos_mouse):
-                    opcoes()
+                # if botao_options.mouseSobre(pos_mouse):
+                #     opcoes()
                 if botao_sair.mouseSobre(pos_mouse):
                     sys.exit()
                 if botao_elementos.mouseSobre(pos_mouse):
