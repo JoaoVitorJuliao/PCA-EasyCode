@@ -18,7 +18,7 @@ class Pergunta:
         elif self.id == 3:
             self.acidoacetico()
         elif self.id == 4:
-            self.oxidodinitrogeno()
+            self.oxidonitroso()
         elif self.id == 5:
             self.agua()
         elif self.id == 6:
@@ -63,12 +63,12 @@ class Pergunta:
         self.listaElementos.append(carbono)
         self.listaElementos.append(oxigenio)
 
-    def oxidodinitrogeno(self):
+    def oxidonitroso(self):
         nitrogenio = ElementoQuimico('Nitrogênio ', 5, 'N')
         oxigenio = ElementoQuimico('Oxigênio ', 6, 'O')
 
         self.id = 4
-        self.nomeCompostoQuimico = 'Óxido Dinitrogeno'
+        self.nomeCompostoQuimico = 'Óxido Nitroso'
         self.dica = 'Possui 2 nitrogenios'
 
         self.listaElementos.append(nitrogenio)
@@ -90,7 +90,7 @@ class Pergunta:
         oxigenio = ElementoQuimico('Oxigênio ', 6, 'O')
 
         self.id = 6
-        self.nomeCompostoQuimico = 'gás carbônico'
+        self.nomeCompostoQuimico = 'Gás Carbônico'
         self.dica = 'Possui 2 oxigenios'
 
         self.listaElementos.append(carbono)
@@ -119,11 +119,11 @@ class Pergunta:
                 if elemento.nomeElemento == 'Hidrogênio':
                     qtdHidrogenio = qtdHidrogenio + 1
                 if elemento.nomeElemento == 'Oxigênio':
-                    qtdOxigenio = qtdOxigenio + 1
+                    qtdOxigenio = qtdEnxofre + 1
                 if elemento.nomeElemento == 'Enxofre':
-                    qtdEnxofre = qtdEnxofre + 1
+                    qtdEnxofre = qtdOxigenio + 1
 
-            if qtdHidrogenio == 2 and qtdOxigenio == 4 and qtdEnxofre == 1:
+            if qtdHidrogenio == 2 and qtdEnxofre == 1 and qtdOxigenio == 4:
                 return True
             else:
                 return False
