@@ -40,7 +40,7 @@ botao_sair = Botao(cor=black, posx=479, posy=350, largura=200, altura=40, texto=
 botao_voltar = Botao(cor=black, posx=480, posy=350, largura=200, altura=40, texto='Voltar')
 botao_som = Botao(cor=black, posx=478, posy=300, largura=200, altura=40, texto='Música: Ligada')
 # BOTAO RESPOSTA
-botao_voltar_resposta = Botao(cor=black, posx=5, posy=5, largura=200, altura=40, texto='Voltar')
+botao_voltar_resposta = Botao(cor=black, posx=125, posy=600, largura=200, altura=40, texto='Voltar')
 # INICIA MODULOS DO PYGAME
 pygame.font.init()
 
@@ -147,28 +147,28 @@ def main_menu():
         mainClock.tick(60)
 
 
-def opcoes():
-    running = True
-    while running:
-        for event in pygame.event.get():
-            pos_mouse = pygame.mouse.get_pos()
-            if event.type == QUIT:
-                pygame.quit()
-                sys.exit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if botao_voltar.mouseSobre(pos_mouse):
-                    main_menu()
-                if botao_som.mouseSobre(pos_mouse):
-                    som = True
-        gameDisplay.fill(white)
-        gameDisplay.blit(menu_simbolo1, (200, 200))
-        gameDisplay.blit(menu_simbolo2, (800, 350))
-        gameDisplay.blit(menu_simbolo3, (100, 450))
-        gameDisplay.blit(fonteTituloJogo.render("Periodic.Py", 1, black), (440, 20))
-        botao_som.desenhaBotao(gameDisplay, white)
-        botao_voltar.desenhaBotao(gameDisplay, white)
-        pygame.display.update()
-        mainClock.tick(60)
+# def opcoes():
+#     running = True
+#     while running:
+#         for event in pygame.event.get():
+#             pos_mouse = pygame.mouse.get_pos()
+#             if event.type == QUIT:
+#                 pygame.quit()
+#                 sys.exit()
+#             if event.type == pygame.MOUSEBUTTONDOWN:
+#                 if botao_voltar.mouseSobre(pos_mouse):
+#                     main_menu()
+#                 if botao_som.mouseSobre(pos_mouse):
+#                     som = True
+#         gameDisplay.fill(white)
+#         gameDisplay.blit(menu_simbolo1, (200, 200))
+#         gameDisplay.blit(menu_simbolo2, (800, 350))
+#         gameDisplay.blit(menu_simbolo3, (100, 450))
+#         gameDisplay.blit(fonteTituloJogo.render("Periodic.Py", 1, black), (440, 20))
+#         botao_som.desenhaBotao(gameDisplay, white)
+#         botao_voltar.desenhaBotao(gameDisplay, white)
+#         pygame.display.update()
+#         mainClock.tick(60)
 
 
 def respostas():
